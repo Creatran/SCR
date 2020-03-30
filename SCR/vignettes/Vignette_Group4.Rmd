@@ -1,0 +1,372 @@
+---
+title: "SCR: An Educational-based R Package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## 1. Abstract
+  SCR is an educational-based R package that wraps all the implemented algorithms and exercise solutions of the book "Statistical Computing with R". 
+
+## 2. Introduction
+  This is the first R package that focused on educational use and serves as a reference for "Statistical Computing with R". It has 75 wrapper functions for different problems. Corresponding to the book's chapters, this package contains 9 topics, covering some basic statistical problems: Probability, Random Variables Generating, and Data Visualization. The advanced statistical methods: Monte Carlo method in Integration and Inference, Bootstrap and Jackknife, Permutation tests, and MCMC. The package also displays some numerical implementation in R. 
+
+
+## 3. The potential users of SCR
+  “Statistical Computing with R” is a fundamental textbook that has wide usage in many statistical basic courses, and people who studies statistical computing probably have one on their shelf. However, there is no official solution manuscript of the exercises for this book that people can refer to. This package contains all the coding exercises solutions which are designed for people who are looking through this book. The students majoring in Statistics may use it as a Black box to check if their self-implemented algorithms have the correct answer. Professors and TAs can use it to correct the coding homework. The self-learners can use this package as a guidance to have a deep understanding of this book.
+  
+## 4. Installation    
+Our package is still under construction and have not been poublished. To have a check of the current version, you can install the "SCR" package and call the implemented functions in this package with the following steps.   
+
+ &nbsp;  &nbsp;  &nbsp;   
+  1. Install the related functions.  
+  Some of our functions are built based on some existing packages in R. Some of this packages can be installed by simply calling `install.packages()` with the needed package name in the parentheses. However, some packages need to be downloaded and installed from github by calling `install_github()` with the package name in the parentheses. Details about the installation are listed bellow, you can install all the related packages at one time by run the following R codes:  
+  
+  ```
+  # Install package tolerance:
+  install.packages('tolerance')
+  
+  # Install package ExtDist:
+  library(remotes)  
+  install_github('cran/ExtDist')
+  
+  # Install package sads:
+  install.packages('sads')
+
+  # Install package VGAM:
+  install.packages('VGAM')
+  
+  # Install package GGally:
+  install.packages('GGally') 
+  
+  # Install package MASS:
+  install.packages('MASS')
+  
+  # Install package matlib:
+  install.packages('matlib')
+  
+  # Install package lattice:
+  install.packages('lattice')
+  
+  # Install package DAAG:
+  library(remotes)  
+  install_github('cran/DAAG')
+  
+  # Install package bootstrap: 
+  install.packages('bootstrap')
+  
+  # Install package boot: 
+  install.packages('boot')
+  
+  # Install package cramer: 
+  install.packages('cramer')
+  
+  ```
+  
+  2. Save "SCR".   
+  Download our R-package and save it in your laptop.
+  3. Open "SCR".   
+  Open Rstudio, click File >> Open Project, select the directory you saved the the R-package "SCR".
+  4. Library needed functions.   
+  Library `devtools` and `roxygen2` to install the "SCR" package by running the follow R codes.
+  ```
+  library(devtools)
+  library(roxygen2)
+  ```
+  5. Set up all the documentation.   
+  Use `document` function to set up all the documentation for "SCR" by running the following:
+  ```
+  document()
+  ```
+  6. Install "SCR".   
+  Go back to the parent path and install "SCR" with the following codes:
+  ```
+  setwd('..')
+  install("SCR")
+  ```
+  Now, you have installed the R-package "SCR". You can call all the functions in this package by running their names. You can see all the functions in the 'R' folder in the bottom right part of your R studio panel. 
+  
+  **Notes**   
+  
+  * For Mac users, it might return error when do the documentation since rgl depends on XQuartz on MacOS. To fix this problem, you need to download the XQuartz from xquartz.org.    
+ 
+
+## 5. The functionality of SCR 
+  For people who are learning Statistical Computing, this package can benefit you in at least three respects: conciseness of exercise answers checking, using the R documentation as reference, taking advantage of the expanded functions. These advantages have made this package a wonderful tool for people who love statistics and R to continue their exploration.
+
+### 5.1 Quickly Check of the Answers
+
+  To find and compare the results of some exercise, you need to refer to the function name as 'scr' following with chapter number, the underline, and the question number. For example, you can check the solution of exercise 5.1 in Rizzo's book by running the following R sentence:
+
+
+```{r, warning=FALSE, message=FALSE}
+library(SCR)
+```
+
+```
+scr5_1()
+```
+```
+Monte.Carlo.estimate   Eexact.value
+0.4945	               0.5	
+```
+
+### 5.2 Use R Documentation as Reference  
+All the R functions in this package are documented in details and you can check the specific usage of each function with `help` in R. For example, to check what the function `scr5_1` does, simply run the following:
+
+```
+help("scr5_1")
+```
+
+  The R documentation is shown on the right-hand side. The description part describes the corresponding exercise in Rizzo's book and what problem this function is working on. The Value part shows what are the outputs represent. The Arguments part specifies which parameters can be modified and what are the meanings of them. The details part displays the idea of solving this problem and how to realize it.
+
+### 5.3 The Expanded Functions
+  This package also contains some expanded functions to help students better understand the topics in Rizzo's book, and further more, to help professors better present the intrinsic meanings of the problems. Here we displays one function in our package that are useful in understanding some problems.
+
+**Different Methods in Generating Markov Chain**    
+
+  According to Rizzo's book, the Metropolis-Hasting algorithms are a class of Markov Chain Monte Carlo methods contains the Metropolis-Hasting sampler, the independence sampler, the random walk Metropolis-Hasting sampler, and the Gibbs sampler. Among these methods, the Gibbs sampler is used to generate the bivariate normal distribution, while the first three samplers are used to generate a Markov Chain such that its stationary distribution is the target distribution.   
+With respect to the exercise 9.6, Rao presented an example on genetic linkage of 197 animals in four categories. The group sizes are (125, 18, 20, 34). Assume that the probabilities of the corresponding multinomial distribution are $$(\frac{2 + \theta}{4}, \frac{1 - \theta}{4}, \frac{1 - \theta}{4}, \frac{\theta}{4}).$$ 
+The MCMCsim function in SCR package can be used to simulate a Markov Chain with the posterior distribution of theta given the observed sample, using the three aforementioned methods (the Metropolis-Hasting sampler, the independence sampler, and the random walk Metropolis-Hasting sampler).   
+This function can help you visualize the differences in the Markov Chain generated by these three methods and also compare the rejecting rate during the stochastic process.  \
+  To check the result, simply refer to the function `MCMCsim`, you can also choose the MCMC methods by modifying the `sample.method` term with "MHS"(default), "IS" or "RWS".  \
+  To see the Metropolis-Hasting Sampler for this problem, you can simply run the following R codes: \
+
+```{r}
+MHS <- MCMCsim9(sample.method = "MHS")
+```
+
+```
+MHS
+```
+
+```
+Metropolis-Hastings Method
+
+data:  Markov Chain Monte Carlo Sampler
+
+sample estimates:
+[1] 0.624776
+```
+
+  To check the Random Walk Metropolis-Hasting Sampler, you can run the following R codes: 
+  
+```{r}
+RWS <- MCMCsim9(sample.method = "RWMS")
+```
+
+```
+RWS
+```
+```
+    Metropolis-Hastings Method
+
+data:  Markov Chain Monte Carlo Sampler
+
+sample estimates:
+[1] 0.622221
+```
+  To see the Markov Chain generated by independence method, simply type the followings:
+
+```{r}
+IS <- MCMCsim9(sample.method = "IS")
+```
+
+```
+IS
+```
+
+```
+Metropolis-Hastings Method
+
+data:  Markov Chain Monte Carlo Sampler
+
+sample estimates:
+[1] 0.6216073
+```
+
+  The results show that the estimate theta hats are all close to 0.62. 
+Now compare the reject rates among these three methods:
+
+```
+print(paste0("MHS reject rate: ", round(MHS$reject_rate, 3), 
+            ".  RWS reject rate: ", round(RWS$`estimate theta hat`, 3),
+            ".  IS reject rate: ", round(IS$`estimate theta hat`, 3)))
+```
+
+```
+MHS reject rate: 0.943.  
+RWS reject rate: 0.622.  
+IS reject rate:  0.622.
+```
+
+  The above plots show that all the Markov chain converges and reached to the approximately same result. However, the Metropolis-Hasting Method has the highest reject rate compared to others that about 94.6% candidate points are rejected, so it is inefficient in this problem.
+
+## 6. Examples 
+### Monte Carlo experiment to estimate a confidence level
+**`scr6_5()`**\
+  This function provide the answer to exercise 6.5.            
+  The exercise question is: Suppose a 95% symmetric t-interval is applied to estimate a mean, but the sample data are non-normal. Then the probability that the conﬁdence interval covers the mean is not necessarily equal to 0.95. Use a Monte Carlo experiment to estimate the coverage probability of the t-interval for random samples of $\chi^2$ (2) data with sample size n = 20. Compare your t-interval results with the simulation results in Example 6.4.            
+```
+scr6_5(alpha=0.05,n=20,m=1000)
+```
+
+Arguments:   
+  alpha is the significance level, defaults to 0.05.  
+  n is sample size, defaults to 20.  
+  m is number of replicates,  defaults to 1000.   
+  
+```
+$`t interval`
+[1] 0.921
+
+$`interval for variance`
+[1] 0.781
+```
+
+  Though the result we can see that: The t-interval should be more robust to departures from normality than the interval for variance.
+
+  When the student get stuck in how to answer the question, they can use `?scr6_5` to check the R documentation. In R documentation we provide hints for students as references:
+ 
+ 1. Rizzo's Book P159 : we provide the page on Rizzo's book where students could find relative knowledge to answer this question.
+ 
+ 2. We provide relative statistical knowledge as references for students to learn:
+     - The confidence level is the probability that the interval (U, V) covers the
+     true value of the parameter θ. Evaluating the confidence level is therefore an
+     integration problem.
+     - Monte Carlo estimate of the true confidence level. This type of simulation
+     can be conveniently implemented by using the replicate function.
+     - Two-sided t interval for one sample μ:
+         -  UCL<-mean(x)+qt(1-alpha/2,df=n-1)*sd(x)/sqrt(n)
+         -  LCL<-mean(x)-qt(1-alpha/2,df=n-1)*sd(x)/sqrt(n)
+     - One-sided interval of variance for one sample σ2:
+         -  UCL<-(n-1) * var(x) / qchisq(alpha, df = n-1)
+ 3. Expanded function: `MCsimCL1()`
+   ```
+    MCsimCL1<-(alpha=0.05,n=20,m=1000,type=c("mean","var"),
+              interval = c("two.sided", "left", "right"),
+              data=c("norm","chisq"),mu=0,sd=1,nv=1)
+  ```
+   We provide this function to help students better understand the topics in Rizzo's book, and further more, to help professors better present the intrinsic meanings of the problems.\
+
+&nbsp;
+
+**`MCsimCL1()`**    
+
+
+  Empirical confidence level is an estimate of the confidence level obtained
+by simulation. For the simulation experiment, repeat the steps above a large
+number of times, and compute the proportion of intervals that contain the
+target parameter. Monte Carlo method to assess the confidence level in an estimation procedure. Empirical confidence level is an estimate of the confidence level obtained by simulation. For the simulation experiment, repeat the steps above a large number of times, and compute the proportion of intervals that contain the target parameter. In Rizzo's book, several examples and exercise 6.5 are related to confidence level estimation using Monte Carlo method. Students are expected to know that confidence interval estimation procedure is sensitive to mild departures from normality. And they should understand the t-interval should be more robust to departures from normality than the interval for variance.\
+
+   ```
+    MCsimCL1<-(alpha=0.05,n=20,m=1000,type=c("mean","var"),
+              interval = c("two.sided", "left", "right"),
+              data=c("norm","chisq"),mu=0,sd=1,nv=1)
+  ```
+
+
+Arguments:     
+  
+alpha	is a number indicating significance level, defaults to 0.05.\
+
+n	is a number indicating random samples size generated from a lognormal distribution, defaults to 20.\
+
+m	is a number indicating number of response vectors to simulate, defaults to 1000.\
+
+type is a character string specifying the parameter to estimate, must be one of "mean"(default),"var".\
+
+interval is a character string specifying the interval type, must be one of "two.sided"(default) , "right" or "left".\
+
+data is a character string specifying the data distribution, must be one of "norm"(default),"chisq".\
+
+mu is a number indicating sample mean of normal distributed data, defaults to 0.\
+
+sd is a number indicating sample standard deviation of normal distributed data, defaults to 1.\
+
+nv is a number indicating degree freedom of chisq distributed data, defaults to 1.\
+  
+
+ &nbsp;  &nbsp;  &nbsp; 
+  
+  This function could generate confidence level in difference scenario：\
+  
+  1. The default scenario: two-sided t interval for normal distributed one sample μ
+```
+MCsimCL1()
+```
+```
+      Monte Carlo method to simulate the confidence level
+
+data:  Two-sided t interval for normal distributed one sample μ
+
+sample estimates:
+[1] 0.95
+```
+
+  2. Data type can change form normal distributed data to chi-square distributed data.      
+```
+MCsimCL1(data="chisq")
+```
+
+```
+	    Monte Carlo method to simulate the confidence level
+
+data:  Two-sided t interval for chisq distributed one sample μ
+
+sample estimates:
+[1] 0.889
+```
+
+  3. Interval type can change from two.sided to right or left.
+```
+MCsimCL1(interval="right")
+```
+```
+      Monte Carlo method to simulate the confidence level
+
+data:  One-sided right t interval for normal distributed one sample μ
+
+sample estimates:
+[1] 0.979
+```
+
+  4. Specifying the parameter to estimate: mean or variance.
+```
+MCsimCL1(type="var",data="chisq",interval="right")
+```
+```
+        Monte Carlo method to simulate the confidence level
+
+data:  One-sided right interval of variance for chisq distributed one sample σ2
+
+sample estimates:
+[1] 0.902
+```
+
+  Using this function, students can easily check how confidence levels vary among those scenarios without manually typing codes repeatedly. They can also set other arguments in this function such as simulation times,  value of true parameter of data and see how the simulation result changes. 
+ 
+## 7. Future Improvement
+  Our package covers chapters 3 to 9 in Rizzo's book. We have written R documents for each functions and provided 2 extend functions. We will continue writing more extend functions and enrich our R documents with more hints to help students solve the exercise problems in the future.          
+
+## 8. Contributions
+**Tianran Zhang**\
+  Write functions related to Monte Carlo method in integration and Markov chain Monte Carlo Methods in Rizzo's book "Statistical Computing with R" .\
+  Write Vignette.
+
+**Wenyu Zhu**\
+  Write functions related to Random variables generating and Data visualization in Rizzo's book "Statistical Computing with R" .\
+ Write Tutorial on R package development. 
+
+**Yinuo Liu**\
+  Write functions related to Monte Carlo method in inference, Bootstrap and jackknife and Permutation tests in Rizzo's book "Statistical Computing with R"\
+  Write Vignette.
+
+## References
+1. [Fong Chun Chan's blog: Making Your First R Package](http://tinyheero.github.io/jekyll/update/2015/07/26/making-your-first-R-package.html)    
+2. Maria L. Rizzo, 2008. Statistical Computing with R, Chapman & Hall/CRC, ISBN 1-58488-545-9  
+
+
+
